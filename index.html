@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="Generalizable Dexterous Grasping Synthesis Via Part-Aware Prior Retrieval and Prior-Assisted Generation">
+    <meta name="keywords" content="Task-oriented dexterous grasping,Generalizable dexterous grasping,Retrieval-augmented grasping">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>G-DexGrasp: Generalizable Dexterous Grasping Synthesis Via Part-Aware Prior Retrieval and Prior-Assisted Generation</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/LOGO.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+    .abstract-image {
+      background-color: transparent !important;
+    width: 100%;  /* 图片宽度自适应列宽 */
+    height: auto; /* 保持宽高比 */
+    display: block;
+    margin: 0 auto; /* 水平居中 */
+    }
+    .content {
+    text-align: left; /* 强制内容靠左对齐 */
+  }
+
+
+  .section {
+  background-color: transparent !important; /* 删除灰色背景 */
+  border: none !important; /* 删除边框 */
+  box-shadow: none !important; /* 删除阴影 */
+}
+
+/* 移除图片样式 */
+.interpolation-image {
+  background-color: transparent !important; /* 确保图片没有背景色 */
+  border: none !important; /* 确保图片没有边框 */
+  display: block; /* 保持图片正常显示 */
+  margin: 0 auto; /* 居中显示 */
+}
+
+/* 修正 p 标签默认样式 */
+p {
+  background-color: transparent !important; /* 确保文字背景透明 */
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.long-cross {
+    color: black; /* 星号颜色 */
+    font-size: 1.5em; /* 星号大小 */
+    margin-left: 5px; /* 星号与文字的间距 */
+  }
+
+.carousel .item svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+  </style>
+
+</head>
+
+
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://csse.szu.edu.cn/staff/ruizhenhu/index.htm">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://affordpose.github.io/">
+            AffordPose
+          </a>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h2 class="post-title">
+            <img class="left" src="./static/images/LOGO-2.png" width="480px" height="auto" alt="G-DexGrasp.png">
+          </h2>
+          <h1 class="title is-1 publication-title" style="color: black;">
+            <span style="color: #d68c6ff3;">G-Dex</span><span style="color: #afd9a8f3;">Grasp</span>: Generalizable Dexterous Grasping Synthesis Via Part-Aware Prior Retrieval and Prior-Assisted Generation
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="">Juntao Jian</a><sup>1,4<b>&#9733;</b></sup>,</span> &nbsp;
+            <span class="author-block">
+              <a href="">Xiuping Liu</a><sup>1</sup>,</span> &nbsp;
+            <span class="author-block">
+              <a href="">Zixuan Chen</a><sup>1<b>&#9733;</b></sup>,
+            </span>  &nbsp;
+            <span class="author-block">
+              <a href="https://manyili12345.github.io/">Manyi Li</a><sup>2,<b>&#9742</b></sup>, 
+            </span> &nbsp;
+            <span class="author-block">
+              <a href="http://sofienbouaziz.com">Jian Liu</a><sup>3,<b>&#9742</b></sup>, 
+            </span> &nbsp;
+            <span class="author-block">
+              <a href="https://csse.szu.edu.cn/staff/ruizhenhu/">Ruizhen Hu</a><sup>4</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Dalian University of Technology,</span> &nbsp;&nbsp;
+            <span class="author-block"><sup>2</sup>Shandong University</span> <br />
+            <span class="author-block"><sup>3</sup>Shenyang University of Technology</span> &nbsp;&nbsp;
+            <span class="author-block"><sup>3</sup>Shenzhen University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video(Coming soon)</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code(Coming soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data(Coming soon)</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item badminton">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/badminton.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item /bell-pepper">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/bell-pepper.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item /bowl">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/bowl.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item /bucket">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/bucket.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item cabinet">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/cabinet.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item caffee-machine">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/caffee-machine.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item can">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/can.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item coffee-machine-2">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/coffee-machine-2.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item globe">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/globe.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item /kettle">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/kettle.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item lamp-2">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/lamp-2.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item lamp">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/lamp.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item switch">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/switch.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item tetra-pak">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/tetra-pak.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item toaster">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/toaster.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+        <div class="item wine-glass">
+          <svg viewBox="0 0 5.39 5.41">
+            <image href="./static/images/teaser/wine-glass.svg" width="100%" height="100%"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent advances in dexterous grasping synthesis have demonstrated significant progress in producing reasonable and plausible grasps for many task purposes. But it remains challenging to generalize to unseen object categories and diverse task instructions. 
+          </p>
+          <p>
+            In this paper, we propose <span class="dnerf">G-DexGrasp</span>, a retrieval-augmented generation approach that can produce high-quality dexterous hand configurations for unseen object categories and language-based task instructions. 
+            Specifically, the fine-grained contact part and affordance act as generalizable guidance to infer reasonable grasping configurations for unseen objects with a generative model, while the relevant grasping distribution plays as regularization to guarantee the plausibility of synthesized grasps during the subsequent refinement optimization.
+          </p>
+          <p>
+            Our comparison experiments validate the effectiveness of our key designs for generalization and demonstrate the remarkable performance against the existing approaches.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src=""
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Pipeline</h2>
+        <div class="content has-text-justified">
+          <img src="./static/images/pipeline.svg" class="interpolation-image" alt="Pipeline Image"/>
+          <p>
+            The three-stage pipeline of G-DexGrasp. 
+            (1) Generalizable grasping prior retrieval leverages pre-trained models to infer the fine-grained grasp configuration and retrieve relevant instances to form the grasping prior. 
+            (2) Part-aware grasping generation takes the target contact part and the retrieved prior as conditions to roughly initialize the hand.
+            (3) Prior-guided grasping optimization takes the retrieved prior and other constraints as objective loss. It first optimizes the extrinsics only and then both extrinsic and intrinsic parameters.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered">
+
+      <!-- Network. -->
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Network of Part-aware Grasping Generation</h2>
+          <p>
+          The second stage aims to estimate the rough hand extrinsics parameters based on the given object and the inferred grasping arrangement.
+          </p>
+          <img src="./static/images/network.svg" class="interpolation-image" alt="network Image"/>
+        </div>
+      </div>
+      <!--/ Network. -->
+
+      <!-- Intermediate. -->
+      <div class="column">
+        <h2 class="title is-3">Intermediate Result Visualization</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              To better show how G-DexGrasp worked, we take the results of a microwave as an example.
+            </p>
+            <img src="./static/images/intermediate.svg" class="interpolation-image" alt="intermediate Image"/>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <!--/ Intermediate. -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Experiments Results </h2>
+        <h3 class="title is-3">Comparisons </h3>
+        <div class="content has-text-justified">
+          <p>
+            Given object from unseen categories and language-based task instruction, thanking to our retrieval-augmented grasping generation strategy, our approach exhibits remarkable performance in the generalization. Note that the contact parts are highlighted in the first row for visualization, not as input.
+          </p>
+          <img src="./static/images/comparion.svg" class="interpolation-image" alt="Comparisons Image"/>
+        </div>
+        <h3 class="title is-3">Ablations </h3>
+        <div class="content has-text-justified">
+          <p>
+            Compared to our results, (b) and (c) validate the importance of using a part-aware network for hand initialization, while (d), (e), and (f) reveal the effectiveness of the prior-guided optimization to produce stable grasps.
+          </p>
+          <img src="./static/images/ablation.svg" class="interpolation-image" alt="ablation Image"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            The website template was borrowed from
+            <a href="https://nerfies.github.io/">nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
